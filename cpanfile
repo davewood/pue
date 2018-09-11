@@ -6,3 +6,7 @@ requires 'Web::Request::Role::JSON';
 requires 'Web::Request::Role::Response';
 requires 'Bread::Runner';
 requires 'Net::Async::HTTP::Server';
+requires 'Log::Any';
+requires 'Throwable::X';
+requires 'Router::Simple';
+requires 'Plack::Middleware::PrettyException'
