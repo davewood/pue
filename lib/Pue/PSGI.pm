@@ -18,6 +18,12 @@ has 'root_ctrl' => (
     required => 1,
 );
 
+has 'user_ctrl' => (
+    is       => 'ro',
+    isa      => 'Pue::PSGI::Ctrl::User',
+    required => 1,
+);
+
 sub app {
     my $self = shift;
 

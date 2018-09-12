@@ -5,10 +5,17 @@ our $VERSION = '0.001';
 
 use Bread::Board;
 use Module::Runtime 'use_module';
+use Pue::Config;
 use Pue::X;
 
 my $c = container 'Pue' => as {
     container 'App' => as {
+        service 'Config' => (
+            class => 'Pue::Config',
+            block => sub {
+                return Pue::Config::get();
+            }
+        );
         service 'pue.pl' => (
             class        => 'Pue::Async',
             lifecycle    => 'Singleton',
@@ -18,6 +25,18 @@ my $c = container 'Pue' => as {
             }
         );
     };
+    container 'DB' => as {
+        service 'Schema' => (
+            class        => 'Pue::Schema',
+            lifecycle    => 'Singleton',
+            dependencies => { config => '/App/Config' },
+            block        => sub {
+                my $s = shift;
+                my $config = $s->params->{config};
+                Pue::Schema->connect( $config->{dsn}, undef, undef );
+            },
+        );
+    };
     container 'PSGI' => as {
         service 'App' => (
             class        => 'Pue::PSGI',
@@ -25,6 +44,7 @@ my $c = container 'Pue' => as {
             dependencies => {
                 router    => '/PSGI/Router',
                 root_ctrl => '/Controller/Root',
+                user_ctrl => '/Controller/User',
             }
         );
         service 'Router' => (
@@ -40,6 +60,13 @@ my $c = container 'Pue' => as {
         service 'Root' => (
             lifecycle => 'Singleton',
             class     => 'Pue::PSGI::Ctrl::Root',
+        );
+        service 'User' => (
+            lifecycle => 'Singleton',
+            class     => 'Pue::PSGI::Ctrl::User',
+            dependencies => {
+                schema => '/DB/Schema'
+            }
         );
     };
     container 'Async' => as {

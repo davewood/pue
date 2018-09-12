@@ -7,7 +7,7 @@ sub index {
     my ( $self, $req ) = @_;
     return $req->json_response(
         {   version => $Pue::VERSION,
-            claim   => 'frameworkless perl api and vuejs demo'
+            claim   => 'frameworkless perl api and vuejs demo',
         }
     );
 }

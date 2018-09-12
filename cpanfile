@@ -9,4 +9,7 @@ requires 'Net::Async::HTTP::Server';
 requires 'Log::Any';
 requires 'Throwable::X';
 requires 'Router::Simple';
-requires 'Plack::Middleware::PrettyException'
+requires 'Plack::Middleware::PrettyException';
+requires 'DBIx::Class';
+requires 'Config::ZOMG';
+requires 'Dir::Self';

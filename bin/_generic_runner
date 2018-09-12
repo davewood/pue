@@ -1,7 +1,5 @@
 #!/usr/bin/env perl
 use 5.022;
-use strict;
-use warnings;
 
 use Log::Any::Adapter;
 
@@ -9,4 +7,3 @@ Log::Any::Adapter->set('Stderr', log_level => $ENV{LOGLEVEL} || 'info');
 
 use Bread::Runner;
 Bread::Runner->run('Pue');
-
