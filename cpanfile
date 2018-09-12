@@ -12,4 +12,5 @@ requires 'Router::Simple';
 requires 'Plack::Middleware::PrettyException';
 requires 'DBIx::Class';
 requires 'Config::ZOMG';
+requires 'lib::projectroot';
 requires 'Dir::Self';

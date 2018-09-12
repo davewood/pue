@@ -3,8 +3,15 @@ use 5.022;
 use Moose;
 
 use Plack::Builder;
+use Plack::App::File;
 use Pue::PSGI::Request;
 use Pue::X;
+
+has 'config' => (
+    is       => 'ro',
+    isa      => 'HashRef',
+    required => 1,
+);
 
 has 'router' => (
     is       => 'ro',
@@ -27,7 +34,7 @@ has 'user_ctrl' => (
 sub app {
     my $self = shift;
 
-    my $app = sub {
+    my $api_app = sub {
         my $env = shift;
 
         if ( my $match = $self->router->match($env) ) {
@@ -55,10 +62,18 @@ sub app {
             Pue::X::NotFound->throw( { ident => 'not found' } );
         }
     };
+    my $root       = $self->config->{root} . '/root';
+    my $index_app  = Plack::App::File->new( file => "$root/index.html" )->to_app;
+    my $static_app = Plack::App::File->new( root => "$root/static" )->to_app;
 
-    my $builder = Plack::Builder->new;
-    $builder->add_middleware('Plack::Middleware::PrettyException');
-    return $builder->wrap($app);
+    return builder {
+        enable "PrettyException";
+        builder {
+            mount '/'       => $index_app;
+            mount '/static' => $static_app;
+            mount '/api'    => $api_app;
+        };
+    };
 }
 
 __PACKAGE__->meta->make_immutable;

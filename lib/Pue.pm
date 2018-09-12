@@ -11,8 +11,9 @@ use Pue::X;
 my $c = container 'Pue' => as {
     container 'App' => as {
         service 'Config' => (
-            class => 'Pue::Config',
-            block => sub {
+            class     => 'Pue::Config',
+            lifecycle => 'Singleton',
+            block     => sub {
                 return Pue::Config::get();
             }
         );
@@ -42,6 +43,7 @@ my $c = container 'Pue' => as {
             class        => 'Pue::PSGI',
             lifecycle    => 'Singleton',
             dependencies => {
+                config    => '/App/Config',
                 router    => '/PSGI/Router',
                 root_ctrl => '/Controller/Root',
                 user_ctrl => '/Controller/User',
