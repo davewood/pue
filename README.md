@@ -28,7 +28,9 @@ create sqlite DB
 
 start webserver
 
-`perl bin/pue.pl`
+`carton exec bin/pue.pl`
+
+visit localhost:8080/index.html in your browser.
 
 
 # DEVELOPMENT
@@ -47,4 +49,6 @@ generate perl schema classes
 
 start webserver
 
-`perl bin/pue.pl`
+`carton exec bin/pue.pl`
+
+visit localhost:8081 in your browser.
