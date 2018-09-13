@@ -1,25 +1,44 @@
 # INSTALLATION
 
 ## frontend
-npm install
-npm run build
+
+install javascript dependencies
+
+`npm install`
+
+build static files and copy them to backend/static
+
+`npm run build`
 
 ## backend
 
-### create sqlite DB
-sqlite3 pue.db < pue.sql
-perl bin/pue.pl
+install perl dependencies
+
+`carton install`
+
+create sqlite DB
+
+`sqlite3 pue.db < pue.sql`
+
+start webserver
+
+`perl bin/pue.pl`
 
 
 # DEVELOPMENT
 
 ## frontend
-npm run serve
+
+run live-reloading webserver
+
+`npm run serve`
 
 ## backend
 
-### generate perl schema classes
-dbicdump -o dump_directory=./lib Pue::Schema 'dbi:SQLite:./pue.db'
+generate perl schema classes
 
-### start webserver
-perl bin/pue.pl
+`dbicdump -o dump_directory=./lib Pue::Schema 'dbi:SQLite:./pue.db'`
+
+start webserver
+
+`perl bin/pue.pl`
