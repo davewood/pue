@@ -1,9 +1,12 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <h2 v-if="users.length">Users</h2>
     <div v-for="user in users" :key="user.id">
       {{ user.id }}: {{ user.name }}
     </div>
+    <button v-if="users.length" @click="clear">clear</button>
+    <button v-if="!users.length" @click="load">load</button>
   </div>
 </template>
 
@@ -16,12 +19,16 @@ export default {
   props: {
     msg: String
   },
-  created: function() {
-    var vm = this;
-    vm.axios.get('/api/users')
-      .then(
-        function(res) { vm.users = res.data; }
-      );
+  created: function() { this.load(); },
+  methods: {
+    load: function(){
+      var vm = this;
+      vm.axios.get('/api/users')
+        .then(
+          function(res) { vm.users = res.data; }
+        );
+      },
+    clear: function(){this.users = []}
   }
 }
 </script>
