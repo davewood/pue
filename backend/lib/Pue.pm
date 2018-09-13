@@ -45,7 +45,6 @@ my $c = container 'Pue' => as {
             dependencies => {
                 config    => '/App/Config',
                 router    => '/PSGI/Router',
-                root_ctrl => '/Controller/Root',
                 user_ctrl => '/Controller/User',
             }
         );
@@ -59,10 +58,6 @@ my $c = container 'Pue' => as {
         );
     };
     container 'Controller' => as {
-        service 'Root' => (
-            lifecycle => 'Singleton',
-            class     => 'Pue::PSGI::Ctrl::Root',
-        );
         service 'User' => (
             lifecycle => 'Singleton',
             class     => 'Pue::PSGI::Ctrl::User',

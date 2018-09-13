@@ -19,12 +19,6 @@ has 'router' => (
     required => 1,
 );
 
-has 'root_ctrl' => (
-    is       => 'ro',
-    isa      => 'Pue::PSGI::Ctrl::Root',
-    required => 1,
-);
-
 has 'user_ctrl' => (
     is       => 'ro',
     isa      => 'Pue::PSGI::Ctrl::User',
