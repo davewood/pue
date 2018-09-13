@@ -11,7 +11,7 @@ has 'schema' => (
 
 sub users_GET {
     my ( $self, $req ) = @_;
-    my @users = map {{id => $_->id}} $self->schema->resultset('Usr')->all;
+    my @users = map {{id => $_->id, name => $_->name}} $self->schema->resultset('Usr')->all;
     return $req->json_response( \@users );
 }
 

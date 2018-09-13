@@ -66,7 +66,7 @@ sub app {
     my $static_app = Plack::App::File->new( root => $root )->to_app;
 
     return builder {
-        enable "PrettyException";
+        enable 'PrettyException';
         builder {
             mount '/'    => $static_app;
             mount '/api' => $api_app;

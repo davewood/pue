@@ -20,3 +20,6 @@ npm run serve
 
 ### generate perl schema classes
 dbicdump -o dump_directory=./lib Pue::Schema 'dbi:SQLite:./pue.db'
+
+### start webserver
+perl bin/pue.pl
