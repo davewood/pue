@@ -1,3 +1,9 @@
+# Docker
+
+`docker build -t pue .`
+
+`docker run --name pue -p 8080:8080 --detach pue`
+
 # INSTALLATION
 
 ## frontend
