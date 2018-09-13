@@ -56,7 +56,7 @@ sub app {
             Pue::X::NotFound->throw( { ident => 'not found' } );
         }
     };
-    my $root       = $self->config->{root} . '/root';
+    my $root       = $self->config->{root} . '/static';
     my $static_app = Plack::App::File->new( root => $root )->to_app;
 
     return builder {

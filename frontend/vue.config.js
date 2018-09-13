@@ -1,5 +1,5 @@
 module.exports = {
-    'outputDir': '../backend/root',
+    'outputDir': '../backend/static',
     devServer: {
         proxy: {
             '/api': {
