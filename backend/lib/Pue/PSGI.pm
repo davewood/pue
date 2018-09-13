@@ -63,15 +63,13 @@ sub app {
         }
     };
     my $root       = $self->config->{root} . '/root';
-    my $index_app  = Plack::App::File->new( file => "$root/index.html" )->to_app;
-    my $static_app = Plack::App::File->new( root => "$root/static" )->to_app;
+    my $static_app = Plack::App::File->new( root => $root )->to_app;
 
     return builder {
         enable "PrettyException";
         builder {
-            mount '/'       => $index_app;
-            mount '/static' => $static_app;
-            mount '/api'    => $api_app;
+            mount '/'    => $static_app;
+            mount '/api' => $api_app;
         };
     };
 }

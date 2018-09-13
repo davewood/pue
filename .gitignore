@@ -1,1 +1,4 @@
 backend/pue.db
+backend/local
+backend/root
+frontend/node_modules
