@@ -1,25 +1,33 @@
-FROM debian:buster-slim
+FROM debian:stretch-slim
 
 WORKDIR /root
 
-RUN apt update
-RUN apt -y install nodejs npm unzip carton wget build-essential sqlite3
+RUN apt-get update \
+    && apt-get -y install \
+       vim less tree ack carton curl build-essential sqlite3 libmodule-install-perl \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/davewood/pue/archive/master.zip
-RUN unzip master.zip
-RUN mv pue-master pue
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs
 
-WORKDIR /root/pue/frontend
+# carton chokes if you dont install this manually
+RUN cpanm Menlo::CLI::Compat && rm -rf ~/.cpanm/work/*
+
+RUN useradd --create-home --home-dir /home/johndoe \
+            --user-group --shell /bin/bash johndoe
+
+COPY --chown=johndoe:johndoe . /home/johndoe/pue
+
+USER johndoe
+
+WORKDIR /home/johndoe/pue/frontend
 RUN npm install
 RUN npm run build
 
-WORKDIR /root/pue/backend
-
-# carton chokes if you dont install this manually
-RUN cpanm Menlo::CLI::Compat
-
-RUN carton install
+WORKDIR /home/johndoe/pue/backend
+RUN carton install && rm -rf ~/.cpanm/work/*
 RUN sqlite3 pue.db < pue.sql
 
 EXPOSE 8080
+EXPOSE 8081
 CMD ["carton", "exec", "bin/pue.pl"]

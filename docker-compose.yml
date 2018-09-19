@@ -1,0 +1,8 @@
+version: '3'
+services:
+    pue:
+        container_name: pue
+        build: .
+        ports:
+            - "8080:8080"
+            - "8081:8081"

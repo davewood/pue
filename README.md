@@ -1,54 +1,22 @@
 # Docker
 
-`docker build -t pue .`
+`docker-compose build`
 
-`docker run --name pue -p 8080:8080 --detach pue`
+`docker-compose up`
 
-# INSTALLATION
+http://localhost:8080/index.html
 
-## frontend
+# Development
 
-install javascript dependencies
+## enter docker container
+`docker exec -i -t pue /bin/bash`
 
-`npm install`
-
-build static files and copy them to backend/static
-
-`npm run build`
-
-## backend
-
-install perl dependencies
-
-`carton install`
-
-create sqlite DB
-
-`sqlite3 pue.db < pue.sql`
-
-start webserver
-
-`carton exec bin/pue.pl`
-
-visit localhost:8080/index.html in your browser.
-
-
-# DEVELOPMENT
-
-## frontend
-
-run live-reloading webserver
+## start hot reloading dev server
+`cd frontend`
 
 `npm run serve`
 
-## backend
+127.0.0.1:8081
 
-generate perl schema classes
-
+## re-generate perl schema classes
 `dbicdump -o dump_directory=./lib Pue::Schema 'dbi:SQLite:./pue.db'`
-
-start webserver
-
-`carton exec bin/pue.pl`
-
-visit localhost:8081 in your browser.

@@ -1,0 +1,6 @@
+Dockerfile
+docker-compose.yml
+frontend/node_modules
+backend/pue.db
+backend/local
+backend/static
