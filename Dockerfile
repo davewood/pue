@@ -13,20 +13,34 @@ RUN apt-get install -y nodejs
 # carton chokes if you dont install this manually
 RUN cpanm Menlo::CLI::Compat && rm -rf ~/.cpanm/work/*
 
-RUN useradd --create-home --home-dir /home/johndoe \
-            --user-group --shell /bin/bash johndoe
-
-COPY --chown=johndoe:johndoe . /home/johndoe/pue
+RUN useradd --create-home --home-dir /home/johndoe        \
+            --user-group --shell /bin/bash johndoe        \
+    && mkdir -p /home/johndoe/pue/backend                 \
+    && mkdir -p /home/johndoe/pue/frontend                \
+    && chown -R johndoe:johndoe /home/johndoe/pue/backend \
+    && chown -R johndoe:johndoe /home/johndoe/pue/frontend
 
 USER johndoe
 
+# install backend libs
+COPY --chown=johndoe:johndoe ./backend/cpanfile* /home/johndoe/pue/backend/
+WORKDIR /home/johndoe/pue/backend
+RUN carton install --deployment && rm -rf ~/.cpanm/work/*
+
+# install frontend libs
+COPY --chown=johndoe:johndoe ./frontend/package*.json /home/johndoe/pue/frontend/
 WORKDIR /home/johndoe/pue/frontend
 RUN npm install
+
+COPY --chown=johndoe:johndoe . /home/johndoe/pue
+
+# build frontend app
+WORKDIR /home/johndoe/pue/frontend
 RUN npm run build
 
+# init database
 WORKDIR /home/johndoe/pue/backend
-RUN carton install && rm -rf ~/.cpanm/work/*
-RUN sqlite3 pue.db < pue.sql
+RUN rm -rf pue.db && sqlite3 pue.db < pue.sql
 
 EXPOSE 8080
 EXPOSE 8081
