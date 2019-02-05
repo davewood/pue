@@ -18,11 +18,10 @@ my $c = container 'Pue' => as {
             }
         );
         service 'pue.pl' => (
-            class        => 'Pue::Async',
+            class        => 'Pue::Server',
             lifecycle    => 'Singleton',
             dependencies => {
                 psgi => '/PSGI/App',
-                loop => '/Async/Loop',
             }
         );
     };
@@ -64,12 +63,6 @@ my $c = container 'Pue' => as {
             dependencies => {
                 schema => '/DB/Schema'
             }
-        );
-    };
-    container 'Async' => as {
-        service 'Loop' => (
-            lifecycle => 'Singleton',
-            class     => 'IO::Async::Loop',
         );
     };
 };
