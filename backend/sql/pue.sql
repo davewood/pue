@@ -1,6 +1,6 @@
 CREATE TABLE usr (
   usr_id integer PRIMARY KEY,
-  name test NOT NULL
+  name text NOT NULL
 );
 
 INSERT INTO usr VALUES (1,'david');

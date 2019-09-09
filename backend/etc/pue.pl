@@ -6,7 +6,7 @@ my $root = __DIR__ . '/../';
 
 my $config = {
     root => $root,
-    dsn  => "dbi:SQLite:$root/pue.db",
+    dsn  => "dbi:Pg:service=pue",
 };
 
 return $config;

@@ -1,8 +1,25 @@
-version: '3'
+version: "3.6"
 services:
-    pue:
-        container_name: pue
+    app:
+        container_name: pue-app
         build: .
         ports:
             - "8080:8080"
             - "8081:8081"
+        depends_on:
+            - db
+        volumes:
+            - type: bind
+              source: .
+              target: /home/pue/pue_app
+    db:
+        image: postgres:11-alpine
+        container_name: pue-db
+        environment:
+            POSTGRES_USER: pue
+            POSTGRES_PASSWORD: pue
+            POSTGRES_DB: pue
+        volumes:
+            - db_data:/var/lib/postgresql/data
+volumes:
+    db_data:

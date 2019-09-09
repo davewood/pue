@@ -10,6 +10,7 @@ requires 'Throwable::X';
 requires 'Router::Simple';
 requires 'Plack::Middleware::PrettyException';
 requires 'DBIx::Class';
+requires 'DBD::Pg';
 requires 'Config::ZOMG';
 requires 'lib::projectroot';
 requires 'Dir::Self';

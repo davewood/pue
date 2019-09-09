@@ -1,22 +1,17 @@
 # Docker
 
-`docker-compose build`
-
-`docker-compose up`
+```
+docker-compose build --build-arg CONTAINER_UID=`id -u` app
+docker-compose up
+```
 
 http://localhost:8080/index.html
 
 # Development
 
 ## enter docker container
-`docker exec -i -t pue /bin/bash`
+`docker exec -it pue-app /bin/bash`
 
-## start hot reloading dev server
-`cd frontend`
-
-`npm run serve`
-
-127.0.0.1:8081
-
-## re-generate perl schema classes
-`dbicdump -o dump_directory=./lib Pue::Schema 'dbi:SQLite:./pue.db'`
+echo 'run `docker exec -it pue-app bash -c "cd ~/pue_app/backend && carton exec bin/pue_app.pl"`'
+echo 'run `docker exec -it pue-app bash -c "cd ~/pue_app/frontend && npm run serve"`'
+tail -f /dev/null
