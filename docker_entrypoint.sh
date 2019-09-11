@@ -4,37 +4,46 @@
 
 set -e
 
-echo "setup frontend"
+printf "setup frontend\n"
 cd ~/pue_app/frontend
 npm install
 
-echo "setup backend"
+printf "setup backend\n"
 cd ~/pue_app/backend
 carton install
 
 until PGSERVICE=pue psql -c '\q'; do
-    echo "Postgres is unavailable - sleeping"
+    printf "Postgres is unavailable - sleeping\n"
     sleep 1
 done
 
-echo "Postgres is up - check version"
+printf "Postgres is up - check version\n"
 
 set +e
 dbcheck=`PGSERVICE=pue psql -c 'SELECT id FROM usr LIMIT 1' 2>&1`
 set -e
 
 if [[ $dbcheck = *'relation "usr" does not exist'* ]]; then
-    echo 'init DB'
+    printf "init DB\n"
     PGSERVICE=pue psql --single-transaction --file=sql/pue.sql
     #yes | carton exec bin/db/apply_changes.pl
     #carton exec bin/db/fixtures.pl
 else
-    echo 'apply DB changes'
+    printf "apply DB changes\n"
     #yes | carton exec bin/db/apply_changes.pl
 fi
 
-echo 'run `docker exec -it pue-app bash -c "cd ~/pue_app/backend && carton exec bin/pue.pl"`'
-echo 'run `docker exec -it pue-app bash -c "cd ~/pue_app/frontend && npm run serve"`'
+printf "\n\n"
+printf "######################\n"
+printf "### setup finished ###\n"
+printf "######################\n\n"
+
+printf "### run this command to start the backend service\n"
+printf "docker exec -it pue-app bash -c 'cd ~/pue_app/backend && carton exec bin/pue.pl'\n\n"
+
+printf "### run this command to start the frontend service\n"
+printf "docker exec -it pue-app bash -c 'cd ~/pue_app/frontend && npm run serve'\n\n"
+
 tail -f /dev/null
 
 } >&2 # redirect stout to stderr
