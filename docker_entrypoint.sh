@@ -10,7 +10,7 @@ npm install
 
 printf "setup backend\n"
 cd ~/pue_app/backend
-carton install
+carton install --deployment
 
 until PGSERVICE=pue psql -c '\q'; do
     printf "Postgres is unavailable - sleeping\n"
