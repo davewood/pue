@@ -7,4 +7,4 @@ docker-compose up
 http://localhost:8080/index.html
 
 ## enter app container
-`docker exec -it pue-app /bin/bash`
+`docker exec -it pue-app bash`

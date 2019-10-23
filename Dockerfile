@@ -1,4 +1,7 @@
-FROM debian:buster
+FROM debian:buster-slim
+
+# create man dirs manually because otherwise psql won't install on debian-slim
+RUN for i in {1..8}; do mkdir -p "/usr/share/man/man$i"; done
 
 WORKDIR /root
 
